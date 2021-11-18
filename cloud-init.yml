@@ -1,7 +1,8 @@
 ssh_authorized_keys:
-- github:tomruttle
+- "github:tomruttle"
 hostname: k3os-master
 k3os:
+  password: rancher
   dns_nameservers:
   - 8.8.8.8
   - 1.1.1.1
