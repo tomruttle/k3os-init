@@ -1,6 +1,6 @@
 ssh_authorized_keys:
-- "github:tomruttle"
-hostname: k3os-master
+- github:tomruttle
+hostname: katana
 k3os:
   password: rancher
   dns_nameservers:
