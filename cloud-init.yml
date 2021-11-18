@@ -1,0 +1,10 @@
+ssh_authorized_keys:
+- github:tomruttle
+hostname: k3os-master
+k3os:
+  dns_nameservers:
+  - 8.8.8.8
+  - 1.1.1.1
+  ntp_servers:
+  - 0.us.pool.ntp.org
+  - 1.us.pool.ntp.org
