@@ -1,0 +1,24 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    ports:
+      dns-udp:
+        name: dns-udp
+        port: 53
+        protocol: UDP
+        expose: true
+      dns-tcp:
+        name: dns-tcp
+        port: 53
+        protocol: TCP
+        expose: true
+    securityContext:
+      capabilities:
+        add: [NET_BIND_SERVICE]
+      runAsGroup: 0
+      runAsNonRoot: false
+      runAsUser: 0

@@ -1,0 +1,11 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart
+metadata:
+  name: blocky
+  namespace: default
+spec:
+  chart: blocky
+  repo: https://k8s-at-home.com/charts/
+  set:
+    service.dns-udp.enabled: true
+    service.dns-tcp.enabled: true
