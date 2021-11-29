@@ -5,14 +5,18 @@ metadata:
   namespace: kube-system
 spec:
   valuesContent: |-
+    dashboard:
+      enabled: true
     ports:
-      dns-udp:
-        name: dns-udp
+      traefik:
+        expose: true
+      blocky-udp:
+        name: blocky-udp
         port: 53
         protocol: UDP
         expose: true
-      dns-tcp:
-        name: dns-tcp
+      blocky-tcp:
+        name: blocky-tcp
         port: 53
         protocol: TCP
         expose: true
