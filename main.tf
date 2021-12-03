@@ -5,6 +5,15 @@ terraform {
       version = ">= 2.0.0"
     }
   }
+
+  backend "remote" {
+    hostname     = "app.terraform.io"
+    organization = "ruttle-net"
+
+    workspaces {
+      name = "k3s-master"
+    }
+  }
 }
 
 provider "kubernetes" {
@@ -27,5 +36,5 @@ module "traefik" {
 
 module "blocky" {
   depends_on = [module.traefik]
-  source = "./modules/blocky"
+  source     = "./modules/blocky"
 }
