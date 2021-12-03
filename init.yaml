@@ -1,24 +1,28 @@
 ssh_authorized_keys:
-- github:tomruttle
+  - github:tomruttle
 hostname: katana
 k3os:
+  k3s_args:
+    - server
+    - --cluster-init
+    - --disable=traefik
   dns_nameservers:
-  - 8.8.8.8
-  - 8.8.4.4
+    - 8.8.8.8
+    - 8.8.4.4
   ntp_servers:
-  - 0.de.pool.ntp.org
-  - 1.de.pool.ntp.org
-  - 2.de.pool.ntp.org
-  - 3.de.pool.ntp.org
+    - 0.de.pool.ntp.org
+    - 1.de.pool.ntp.org
+    - 2.de.pool.ntp.org
+    - 3.de.pool.ntp.org
 write_files:
-- content: |
-    [service_eth0]
-    Type = ethernet
-    IPv4 = 192.168.86.10/255.255.255.0/192.168.86.1
-    Nameservers = 8.8.8.8,8.8.4.4
-    Timeservers = 0.de.pool.ntp.org,1.de.pool.ntp.org,2.de.pool.ntp.org,3.de.pool.ntp.org
-  path: /var/lib/connman/eth0.config
+  - content: |
+      [service_eth0]
+      Type = ethernet
+      IPv4 = 192.168.86.10/255.255.255.0/192.168.86.1
+      Nameservers = 8.8.8.8,8.8.4.4
+      Timeservers = 0.de.pool.ntp.org,1.de.pool.ntp.org,2.de.pool.ntp.org,3.de.pool.ntp.org
+    path: /var/lib/connman/eth0.config
 run_cmd:
-- connmanctl disable ethernet
-- hostname katana
-- connmanctl enable ethernet
+  - connmanctl disable ethernet
+  - hostname katana
+  - connmanctl enable ethernet

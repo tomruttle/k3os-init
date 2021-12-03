@@ -6,9 +6,4 @@ metadata:
 spec:
   chart: kubernetes-dashboard
   repo: https://kubernetes.github.io/dashboard/
-  valuesContent: |-
-    service:
-      dns-udp:
-        enabled: true
-      dns-tcp:
-        enabled: true
+  
