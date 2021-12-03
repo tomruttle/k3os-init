@@ -1,9 +1,0 @@
-apiVersion: helm.cattle.io/v1
-kind: HelmChart
-metadata:
-  name: kubernetes-dashboard
-  namespace: kubernetes-dashboard
-spec:
-  chart: kubernetes-dashboard
-  repo: https://kubernetes.github.io/dashboard/
-  
