@@ -27,18 +27,18 @@ provider "helm" {
 }
 
 module "dashboard" {
-  source = "./modules/dashboard"
+  source   = "./modules/dashboard"
   username = local.dashboard_user
 }
 
 module "traefik" {
-  source = "./modules/traefik"
+  source    = "./modules/traefik"
   namespace = local.kube_system_namespace
 }
 
 module "blocky" {
-  depends_on = [module.traefik]
-  source     = "./modules/blocky"
+  depends_on           = [module.traefik]
+  source               = "./modules/blocky"
   blocky_udp_port_name = module.traefik.blocky_udp_port_name
   blocky_tcp_port_name = module.traefik.blocky_tcp_port_name
 }
