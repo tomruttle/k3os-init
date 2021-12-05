@@ -1,13 +1,5 @@
-resource "kubernetes_manifest" "traefik-config" {
+resource "kubernetes_manifest" "traefik_config" {
   manifest = {
-    apiVersion = "traefik.containo.us/v1alpha1"
-    kind       = "IngressRouteUDP"
-
-    metadata = {
-      name      = "ingress-blocky-dns-udp"
-      namespace = "default"
-    }
-
     apiVersion = "helm.cattle.io/v1"
     kind       = "HelmChartConfig"
 
