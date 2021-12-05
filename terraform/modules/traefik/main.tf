@@ -9,34 +9,39 @@ resource "kubernetes_manifest" "traefik_config" {
     }
 
     spec = yamlencode({
-      valuesContent = {
-        dashboard = {
-          enabled = true
+      "valuesContent" = {
+        "dashboard" = {
+          "enabled" = true
         }
-        ports = {
-          blocky-tcp = {
-            expose   = true
-            name     = local.blocky_tcp_port_name
-            port     = 53
-            protocol = "TCP"
+
+        "ports" = {
+          "blocky-tcp" = {
+            "expose"   = true
+            "name"     = "blocky-tcp"
+            "port"     = 53
+            "protocol" = "TCP"
           }
-          blocky-udp = {
-            expose   = true
-            name     = local.blocky_udp_port_name
-            port     = 53
-            protocol = "UDP"
+
+          "blocky-udp" = {
+            "expose"   = true
+            "name"     = "blocky-udp"
+            "port"     = 53
+            "protocol" = "UDP"
           }
-          traefik = {
-            expose = true
+
+          "traefik" = {
+            "expose" = true
           }
         }
-        securityContext = {
-          capabilities = {
-            add = ["NET_BIND_SERVICE"]
+
+        "securityContext" = {
+          "capabilities" = {
+            "add" = ["NET_BIND_SERVICE"]
           }
-          runAsGroup   = 0
-          runAsNonRoot = false
-          runAsUser    = 0
+
+          "runAsGroup"   = 0
+          "runAsNonRoot" = false
+          "runAsUser"    = 0
         }
       }
     })
