@@ -1,49 +1,89 @@
-resource "kubernetes_manifest" "traefik_config" {
-  manifest = {
-    apiVersion = "helm.cattle.io/v1"
-    kind       = "HelmChartConfig"
+resource "helm_release" "traefik" {
+  name      = "traefik"
+  namespace = var.namespace
 
-    metadata = {
-      name      = "traefik"
-      namespace = var.namespace
-    }
+  repository = "https://helm.traefik.io/traefik"
+  chart      = "traefik"
 
-    spec = yamlencode({
-      "valuesContent" = {
-        "dashboard" = {
-          "enabled" = true
-        }
+  set {
+    name  = "rbac.enabled"
+    value = true
+  }
 
-        "ports" = {
-          "blocky-tcp" = {
-            "expose"   = true
-            "name"     = "blocky-tcp"
-            "port"     = 53
-            "protocol" = "TCP"
-          }
+  set {
+    name  = "dashboard.enabled"
+    value = true
+  }
 
-          "blocky-udp" = {
-            "expose"   = true
-            "name"     = "blocky-udp"
-            "port"     = 53
-            "protocol" = "UDP"
-          }
+  set {
+    name = "ports.${local.blocky_udp_port_name}"
+    value = yamlencode({
+      name     = local.blocky_udp_port_name
+      port     = 53
+      protocol = "UDP"
+      expose   = true
+    })
+  }
 
-          "traefik" = {
-            "expose" = true
-          }
-        }
+  set {
+    name = "ports.${local.blocky_tcp_port_name}"
+    value = yamlencode({
+      name     = local.blocky_tcp_port_name
+      port     = 53
+      protocol = "TCP"
+      expose   = true
+    })
+  }
 
-        "securityContext" = {
-          "capabilities" = {
-            "add" = ["NET_BIND_SERVICE"]
-          }
+  set {
+    name  = "ports.traefik.expose"
+    value = true
+  }
 
-          "runAsGroup"   = 0
-          "runAsNonRoot" = false
-          "runAsUser"    = 0
-        }
+  set {
+    name  = "ports.websecure.tls.enabled"
+    value = true
+  }
+
+  set {
+    name  = "providers.kubernetesIngress.publishedService.enabled"
+    value = true
+  }
+
+  set {
+    name  = "priorityClassName"
+    value = "system-cluster-critical"
+  }
+
+  set {
+    name = "securityContext"
+    value = yamlencode({
+      runAsGroup   = 0
+      runAsNonRoot = false
+      runAsUser    = 0
+      capabilities = {
+        add = ["NET_BIND_SERVICE"]
       }
     })
+  }
+
+  set {
+    name = "tolerations"
+    value = yamlencode([
+      {
+        key      = "CriticalAddonsOnly"
+        operator = "Exists"
+      },
+      {
+        key      = "node-role.kubernetes.io/control-plane"
+        operator = "Exists"
+        effect   = "NoSchedule"
+      },
+      {
+        key      = "node-role.kubernetes.io/master"
+        operator = "Exists"
+        effect   = "NoSchedule"
+      }
+    ])
   }
 }

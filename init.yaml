@@ -4,6 +4,7 @@ hostname: katana
 k3os:
   k3s_args:
     - server
+    - "--disable=traefik"
     - "--datastore-endpoint=etcd"
     - "--etcd-expose-metrics"
     - "--kube-controller-manager-arg"

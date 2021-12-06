@@ -63,57 +63,34 @@ resource "helm_release" "blocky" {
   }
 }
 
-resource "kubernetes_manifest" "ingress-blocky-dns-udp" {
-  manifest = {
-    apiVersion = "traefik.containo.us/v1alpha1"
-    kind       = "IngressRouteUDP"
-
-    metadata = {
-      name      = "ingress-blocky-dns-udp"
-      namespace = "default"
+resource "kubernetes_ingress" "ingress_blocky_dns_udp" {
+  metadata {
+    name      = "ingress-blocky-dns-udp"
+    namespace = "default"
+    annotations = {
+      "traefik.ingress.kubernetes.io/router.entrypoints" : var.blocky_udp_port_name
     }
-
-    spec = {
-      entryPoints = [var.blocky_udp_port_name]
-
-      routes = [
-        {
-          services = [
-            {
-              name = "blocky-dns-udp"
-              port = 53
-            }
-          ]
-        }
-      ]
+  }
+  spec {
+    backend {
+      service_name = "blocky-dns-udp"
+      service_port = 53
     }
   }
 }
 
-resource "kubernetes_manifest" "ingress-blocky-dns-tcp" {
-  manifest = {
-    apiVersion = "traefik.containo.us/v1alpha1"
-    kind       = "IngressRouteTCP"
-
-    metadata = {
-      name      = "ingress-blocky-dns-tcp"
-      namespace = "default"
+resource "kubernetes_ingress" "ingress_blocky_dns_tcp" {
+  metadata {
+    name      = "ingress-blocky-dns-tcp"
+    namespace = "default"
+    annotations = {
+      "traefik.ingress.kubernetes.io/router.entrypoints" : var.blocky_tcp_port_name
     }
-
-    spec = {
-      entryPoints = [var.blocky_tcp_port_name]
-
-      routes = [
-        {
-          match = "HostSNI(`*`)"
-          services = [
-            {
-              name = "blocky-dns-tcp"
-              port = 53
-            }
-          ]
-        }
-      ]
+  }
+  spec {
+    backend {
+      service_name = "blocky-dns-tcp"
+      service_port = 53
     }
   }
 }
