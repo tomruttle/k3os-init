@@ -4,15 +4,17 @@ hostname: katana
 k3os:
   k3s_args:
     - server
-    - "--disable=traefik"
-    - "--datastore-endpoint=etcd"
-    - "--etcd-expose-metrics"
-    - "--kube-controller-manager-arg"
-    - "bind-address=0.0.0.0"
-    - "--kube-proxy-arg"
-    - "metrics-bind-address=0.0.0.0"
-    - "--kube-scheduler-arg"
-    - "bind-address=0.0.0.0"
+    - --disable=traefik
+    - --datastore-endpoint=etcd
+    - --etcd-expose-metrics
+    - --kube-controller-manager-arg
+    - bind-address=0.0.0.0
+    - --kube-proxy-arg
+    - metrics-bind-address=0.0.0.0
+    - --kube-scheduler-arg
+    - bind-address=0.0.0.0
+    - –kube-apiserver-arg
+    - feature-gates=MixedProtocolLBService=true
   dns_nameservers:
     - 8.8.8.8
     - 8.8.4.4

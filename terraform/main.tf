@@ -31,14 +31,14 @@ module "dashboard" {
   username = local.dashboard_user
 }
 
-module "traefik" {
-  source    = "./modules/traefik"
-  namespace = local.kube_system_namespace
+module "blocky" {
+  source = "./modules/blocky"
 }
 
-module "blocky" {
-  depends_on           = [module.traefik]
-  source               = "./modules/blocky"
-  blocky_udp_port_name = module.traefik.blocky_udp_port_name
-  blocky_tcp_port_name = module.traefik.blocky_tcp_port_name
+module "nginx" {
+  depends_on = [module.blocky]
+  source     = "./modules/nginx"
+  blocky_namespace = module.blocky.namespace
+  blocky_tcp_service = module.blocky.tcp_service
+  blocky_udp_service = module.blocky.udp_service
 }

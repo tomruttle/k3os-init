@@ -6,7 +6,7 @@ resource "kubernetes_namespace" "dashboard" {
 
 resource "helm_release" "dashboard" {
   name      = "kubernetes-dashboard"
-  namespace = "kubernetes-dashboard"
+  namespace = kubernetes_namespace.dashboard.metadata.0.name
 
   repository = "https://kubernetes.github.io/dashboard"
   chart      = "kubernetes-dashboard"
