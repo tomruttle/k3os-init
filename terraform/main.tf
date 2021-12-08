@@ -26,19 +26,26 @@ provider "helm" {
   }
 }
 
+module "metallb" {
+  source = "./modules/metallb"
+}
+
 module "dashboard" {
+  depends_on = [module.metallb]
+
   source   = "./modules/dashboard"
   username = local.dashboard_user
 }
 
 module "blocky" {
+  depends_on = [module.metallb]
   source = "./modules/blocky"
 }
 
 module "nginx" {
-  depends_on = [module.blocky]
-  source     = "./modules/nginx"
-  blocky_namespace = module.blocky.namespace
+  depends_on         = [module.blocky, module.metallb]
+  source             = "./modules/nginx"
+  blocky_namespace   = module.blocky.namespace
   blocky_tcp_service = module.blocky.tcp_service
   blocky_udp_service = module.blocky.udp_service
 }

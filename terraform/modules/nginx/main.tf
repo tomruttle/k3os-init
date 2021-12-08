@@ -11,7 +11,7 @@ resource "helm_release" "ingress_controller" {
   chart      = "ingress-nginx"
 
   set {
-    name  = "tcp.53"
+    name  = "tcp.5353"
     value = "${var.blocky_namespace}/${var.blocky_tcp_service}:53"
   }
 
