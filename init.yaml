@@ -6,6 +6,7 @@ k3os:
     - server
     - --disable=traefik
     - --disable=servicelb
+    - --flannel-backend=host-gw
     - --datastore-endpoint=etcd
     - --etcd-expose-metrics
     - --kube-controller-manager-arg
