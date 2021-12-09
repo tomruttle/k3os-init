@@ -5,16 +5,6 @@ resource "helm_release" "blocky" {
   chart      = "blocky"
 
   set {
-    name  = "service.dns-udp.enabled"
-    value = true
-  }
-
-  set {
-    name  = "service.dns-tcp.enabled"
-    value = true
-  }
-
-  set {
     name = "config"
     value = yamlencode({
       blocking = {
@@ -61,4 +51,31 @@ resource "helm_release" "blocky" {
       }
     })
   }
+
+  values = [
+    yamlencode({
+      service = {
+        dns = {
+          enabled               = true
+          type                  = "LoadBalancer"
+          externalTrafficPolicy = "Local"
+          loadBalancerIP        = var.blocky_ip
+          ports = {
+            "dns-tcp" = {
+              enabled    = true
+              port       = 53
+              protocol   = "TCP"
+              targetPort = 53
+            }
+            "dns-udp" = {
+              enabled    = true
+              port       = 53
+              protocol   = "UDP"
+              targetPort = 53
+            }
+          }
+        }
+      }
+    })
+  ]
 }

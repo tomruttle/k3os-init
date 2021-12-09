@@ -17,7 +17,7 @@ resource "helm_release" "metallb" {
         {
           name      = "default"
           protocol  = "layer2"
-          addresses = ["192.168.86.100-192.168.86.255"]
+          addresses = [var.address_pool]
         }
       ]
     })

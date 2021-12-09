@@ -26,26 +26,24 @@ provider "helm" {
   }
 }
 
-module "metallb" {
-  source = "./modules/metallb"
+module "dashboard" {
+  source     = "./modules/dashboard"
+  username   = local.dashboard_user
 }
 
-module "dashboard" {
-  depends_on = [module.metallb]
+module "metallb" {
+  source       = "./modules/metallb"
+  address_pool = "192.168.86.128-192.168.86.255"
+}
 
-  source   = "./modules/dashboard"
-  username = local.dashboard_user
+module "nginx" {
+  depends_on = [module.metallb]
+  source     = "./modules/nginx"
+  ingress_ip = "192.168.86.200"
 }
 
 module "blocky" {
   depends_on = [module.metallb]
-  source = "./modules/blocky"
-}
-
-module "nginx" {
-  depends_on         = [module.blocky, module.metallb]
-  source             = "./modules/nginx"
-  blocky_namespace   = module.blocky.namespace
-  blocky_tcp_service = module.blocky.tcp_service
-  blocky_udp_service = module.blocky.udp_service
+  source     = "./modules/blocky"
+  blocky_ip  = "192.168.86.201"
 }

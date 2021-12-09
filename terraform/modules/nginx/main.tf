@@ -11,13 +11,13 @@ resource "helm_release" "ingress_controller" {
   chart      = "ingress-nginx"
 
   set {
-    name  = "tcp.5353"
-    value = "${var.blocky_namespace}/${var.blocky_tcp_service}:53"
+    name = "controller.service.externalTrafficPolicy"
+    value = "Local"
   }
 
   set {
-    name  = "udp.53"
-    value = "${var.blocky_namespace}/${var.blocky_udp_service}:53"
+    name = "controller.service.loadBalancerIP"
+    value = var.ingress_ip
   }
 
   # set {
