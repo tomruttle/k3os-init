@@ -6,9 +6,9 @@ k3os:
     - server
     # - --node-ip=192.168.86.10
     - --disable=traefik
-    - --disable=servicelb
+    # - --disable=servicelb
     # - --flannel-backend=host-gw
-    - --datastore-endpoint=etcd
+    # - --datastore-endpoint=etcd
     # - --etcd-expose-metrics
     # - --kube-controller-manager-arg
     # - bind-address=0.0.0.0
@@ -22,16 +22,16 @@ k3os:
     # - ipvs-strict-arp=true
     # - --kube-scheduler-arg
     # - bind-address=0.0.0.0
-    - --kube-apiserver-arg
-    - feature-gates=MixedProtocolLBService=true
-  dns_nameservers:
-    - 8.8.8.8
-    - 8.8.4.4
-  ntp_servers:
-    - 0.de.pool.ntp.org
-    - 1.de.pool.ntp.org
-    - 2.de.pool.ntp.org
-    - 3.de.pool.ntp.org
+    # - --kube-apiserver-arg
+    # - feature-gates=MixedProtocolLBService=true
+  # dns_nameservers:
+  #   - 8.8.8.8
+  #   - 8.8.4.4
+  # ntp_servers:
+  #   - 0.de.pool.ntp.org
+  #   - 1.de.pool.ntp.org
+  #   - 2.de.pool.ntp.org
+  #   - 3.de.pool.ntp.org
 # write_files:
 #   - content: |
 #       [service_eth0]
