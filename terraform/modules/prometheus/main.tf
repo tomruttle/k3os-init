@@ -10,10 +10,15 @@ resource "helm_release" "prometheus" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
 
-  # set {
-  #   name  = "kubeControllerManager.endpoints"
-  #   value = "{192.168.86.10}"
-  # }
+  set {
+    name = "grafana.adminPassword"
+    value = var.grafana_password
+  }
+
+  set {
+    name  = "kubeControllerManager.endpoints"
+    value = "{${var.host_ip}}"
+  }
 
   set {
     name  = "kubeControllerManager.service.port"
@@ -35,10 +40,10 @@ resource "helm_release" "prometheus" {
     value = true
   }
 
-  # set {
-  #   name  = "kubeEtcd.endpoints"
-  #   value = "{192.168.86.10}"
-  # }
+  set {
+    name  = "kubeEtcd.endpoints"
+    value = "{${var.host_ip}}"
+  }
 
   set {
     name  = "kubeEtcd.service.port"
@@ -50,15 +55,15 @@ resource "helm_release" "prometheus" {
     value = 2381
   }
 
-  # set {
-  #   name  = "kubeProxy.endpoints"
-  #   value = "{192.168.86.10}"
-  # }
+  set {
+    name  = "kubeProxy.endpoints"
+    value = "{${var.host_ip}}"
+  }
 
-  # set {
-  #   name  = "kubeScheduler.endpoints"
-  #   value = "{192.168.86.10}"
-  # }
+  set {
+    name  = "kubeScheduler.endpoints"
+    value = "{${var.host_ip}}"
+  }
 
   set {
     name  = "kubeScheduler.service.port"

@@ -11,39 +11,41 @@ resource "helm_release" "ingress_controller" {
   chart      = "ingress-nginx"
 
   set {
-    name = "controller.service.externalTrafficPolicy"
+    name  = "controller.service.externalTrafficPolicy"
     value = "Local"
   }
 
   set {
-    name = "controller.service.loadBalancerIP"
+    name  = "controller.service.loadBalancerIP"
     value = var.ingress_ip
   }
 
-  # set {
-  #   name  = "controller.metrics.enabled"
-  #   value = true
-  # }
+  set {
+    name  = "controller.metrics.enabled"
+    value = true
+  }
 
-  # set {
-  #   name  = "controller\\.metrics\\.service\\.annotations\\.\"prometheus\\.io/scrape\""
-  #   value = true
-  # }
+  set {
+    name  = "controller.metrics.serviceMonitor.enabled"
+    value = true
+  }
 
-  # set {
-  #   name  = "controller.metrics.service.annotations.\"prometheus\\.io/port\""
-  #   value = 10254
-  # }
+  set {
+    name  = "controller.metrics.serviceMonitor.additionalLabels.release"
+    value = var.prometheus_release_name
+  }
 
-  # set {
-  #   name  = "controller.podAnnotations.\"prometheus\\.io/scrape\""
-  #   value = true
-  # }
+  set {
+    name  = "controller.metrics.service.annotations.prometheus\\.io/port"
+    value = 10254
+    type  = "string"
+  }
 
-  # set {
-  #   name  = "controller.podAnnotations.\"prometheus\\.io/port\""
-  #   value = 10254
-  # }
+  set {
+    name  = "controller.metrics.service.annotations.prometheus\\.io/scrape"
+    value = true
+    type  = "string"
+  }
 
   values = [
     yamlencode({

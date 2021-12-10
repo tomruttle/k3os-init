@@ -5,6 +5,16 @@ resource "helm_release" "blocky" {
   chart      = "blocky"
 
   set {
+    name  = "metrics.enabled"
+    value = true
+  }
+
+    set {
+    name  = "metrics.serviceMonitor.labels.release"
+    value = var.prometheus_release_name
+  }
+
+  set {
     name = "config"
     value = yamlencode({
       blocking = {

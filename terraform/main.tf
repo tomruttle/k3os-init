@@ -27,12 +27,14 @@ provider "helm" {
 }
 
 module "dashboard" {
-  source     = "./modules/dashboard"
-  username   = local.dashboard_user
+  source   = "./modules/dashboard"
+  username = local.dashboard_user
 }
 
 module "prometheus" {
-  source = "./modules/prometheus"
+  source           = "./modules/prometheus"
+  grafana_password = local.grafana_password
+  host_ip          = "192.168.86.10"
 }
 
 module "metallb" {
@@ -41,13 +43,15 @@ module "metallb" {
 }
 
 module "nginx" {
-  depends_on = [module.metallb]
-  source     = "./modules/nginx"
-  ingress_ip = "192.168.86.200"
+  depends_on              = [module.metallb]
+  source                  = "./modules/nginx"
+  prometheus_release_name = module.prometheus.release_name
+  ingress_ip              = "192.168.86.200"
 }
 
 module "blocky" {
-  depends_on = [module.metallb]
-  source     = "./modules/blocky"
-  blocky_ip  = "192.168.86.201"
+  depends_on              = [module.metallb]
+  source                  = "./modules/blocky"
+  prometheus_release_name = module.prometheus.release_name
+  blocky_ip               = "192.168.86.201"
 }
