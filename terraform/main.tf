@@ -31,6 +31,10 @@ module "dashboard" {
   username   = local.dashboard_user
 }
 
+module "prometheus" {
+  source = "./modules/prometheus"
+}
+
 module "metallb" {
   source       = "./modules/metallb"
   address_pool = "192.168.86.128-192.168.86.255"

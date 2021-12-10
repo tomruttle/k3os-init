@@ -8,7 +8,7 @@ k3os:
     - --disable=servicelb
     - --flannel-backend=host-gw
     - --datastore-endpoint=etcd
-    - --etcd-expose-metrics
+    - --etcd-expose-metrics=true
     - --kube-controller-manager-arg
     - bind-address=0.0.0.0
     - --kube-proxy-arg
@@ -31,15 +31,4 @@ k3os:
     - 1.de.pool.ntp.org
     - 2.de.pool.ntp.org
     - 3.de.pool.ntp.org
-# write_files:
-#   - content: |
-#       [service_eth0]
-#       Type = ethernet
-#       IPv4 = 192.168.86.10/255.255.255.0/192.168.86.1
-#       Nameservers = 8.8.8.8,8.8.4.4
-#       Timeservers = 0.de.pool.ntp.org,1.de.pool.ntp.org,2.de.pool.ntp.org,3.de.pool.ntp.org
-#     path: /var/lib/connman/eth0.config
-# run_cmd:
-#   - connmanctl disable ethernet
-#   - hostname katana
-#   - connmanctl enable ethernet
+  
