@@ -5,3 +5,7 @@ variable "host_ip" {
 variable "grafana_password" {
   type = string
 }
+
+variable "grafana_hostname" {
+  type = string
+}

@@ -28,13 +28,14 @@ provider "helm" {
 
 module "dashboard" {
   source   = "./modules/dashboard"
-  username = local.dashboard_user
+  username = var.dashboard_user
 }
 
 module "prometheus" {
   source           = "./modules/prometheus"
-  grafana_password = local.grafana_password
+  grafana_password = var.grafana_password
   host_ip          = "192.168.86.10"
+  grafana_hostname = "grafana.${var.domain}"
 }
 
 module "metallb" {

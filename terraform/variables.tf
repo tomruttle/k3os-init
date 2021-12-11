@@ -1,4 +1,11 @@
-locals {
-  dashboard_user = "tom"
-  grafana_password = "prom-operator"
+variable "dashboard_user" {
+  type = string
+}
+
+variable "grafana_password" {
+  type = string
+}
+
+variable "domain" {
+  type = string
 }

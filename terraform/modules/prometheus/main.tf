@@ -11,8 +11,24 @@ resource "helm_release" "prometheus" {
   chart      = "kube-prometheus-stack"
 
   set {
-    name = "grafana.adminPassword"
+    name  = "grafana.adminPassword"
     value = var.grafana_password
+  }
+
+  set {
+    name  = "grafana.ingress.enabled"
+    value = true
+  }
+
+  set {
+    name  = "grafana.ingress.annotations.kubernetes\\.io/ingress\\.class"
+    value = "nginx"
+    type  = "string"
+  }
+
+  set {
+    name  = "grafana.ingress.hosts"
+    value = "{${var.grafana_hostname}}"
   }
 
   set {
@@ -85,5 +101,3 @@ resource "helm_release" "prometheus" {
     value = true
   }
 }
-
-
